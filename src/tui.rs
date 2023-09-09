@@ -7,6 +7,7 @@ use cursive::views::RadioGroup;
 use cursive::views::LinearLayout;
 use cursive::views::Button;
 use cursive::traits::Nameable;
+use cursive::align;
 use cursive::event::Key;
 use cursive::menu;
 
@@ -14,10 +15,11 @@ use crate::colors::Color;
 
 fn about_window(scr: &mut Cursive) {
 	let layout = LinearLayout::vertical()
-		.child(Panel::new(TextView::new(
-			"Resistor v0.1. Программа для вычисления сопротивления\n\
-				      резисторов по их цветовой маркировке."
-		)))
+		.child(Panel::new(TextView::new(format!(
+			"{} v{}. Программа для вычисления сопротивления\n\
+				      резисторов по их цветовой маркировке.",
+			env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"),
+		))))
 		.child(Panel::new(
 			TextView::new(
 				"Copyright (C) 2023 {Tsar}\n<michail383krasnov@mail.ru>"
@@ -91,7 +93,7 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors1.button(Color::Purple, Color::Purple.to_str()))
 				.child(colors1.button(Color::Gray, Color::Gray.to_str()))
 				.child(colors1.button(Color::White, Color::White.to_str()))
-		).title("Полоса №1"))
+		).title("Полоса №1").title_position(align::HAlign::Left))
 		.child(Panel::new(
 			LinearLayout::vertical()
 				.child(colors2.button(Color::Black, Color::Black.to_str()))
@@ -105,7 +107,7 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors2.button(Color::Gray, Color::Gray.to_str()))
 				.child(colors2.button(Color::White, Color::White.to_str()))
 				// .child(colors2.button(Color::Gold, Color::Gold.to_str()))
-		).title("Полоса №2"))
+		).title("Полоса №2").title_position(align::HAlign::Left))
 		.child(Panel::new(
 			LinearLayout::vertical()
 				.child(colors3.button(Color::Black, Color::Black.to_str()))
@@ -120,7 +122,7 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors3.button(Color::White, Color::White.to_str()))
 				// .child(colors3.button(Color::Gold, Color::Gold.to_str()))
 				// .child(colors3.button(Color::Silver, Color::Silver.to_str()))
-		).title("Полоса №3"))
+		).title("Полоса №3").title_position(align::HAlign::Left))
 		.child(Panel::new(
 			LinearLayout::vertical()
 				.child(colors4.button(Color::Silver, Color::Silver.to_str()))
@@ -131,7 +133,8 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors4.button(Color::Blue, Color::Blue.to_str()))
 				.child(colors4.button(Color::Purple, Color::Purple.to_str()))
 				.child(colors4.button(Color::Gray, Color::Gray.to_str()))
-		).title("Полоса №4"));
+				.child(colors4.button(Color::Black, "другой"))
+		).title("Полоса №4").title_position(align::HAlign::Left));
 
 	let status_bar = LinearLayout::horizontal()
 		.child(Panel::new(LinearLayout::horizontal()
@@ -159,10 +162,20 @@ pub fn main_window(scr: &mut Cursive) {
 					.parse()
 					.unwrap();
 
-				let value = color * color3;
+				let mut value = color * color3;
+				let mut suffix = "Ом";
+
+				if (1000. ..10_000.).contains(&value) {
+					value /= 1000.;
+					suffix = "кОм";
+				} else if value >= 10_000. {
+					value /= 1_000_000.;
+					suffix = "МОм";
+				}
+
 				s.call_on_name("result", |txt: &mut TextView| {
 					txt.set_content(format!(
-						"Сопротивление: {} Ом{}", value, deviation,
+						"Сопротивление: {} {}{}", value, suffix, deviation,
 					));
 				});
 			}))
@@ -177,7 +190,7 @@ pub fn main_window(scr: &mut Cursive) {
 	let win = Dialog::around(LinearLayout::vertical()
 		.child(work_layout)
 		.child(status_bar)
-	).title("Resistor");
+	).title(env!("CARGO_PKG_NAME"));
 
 	scr.add_layer(win);
 }
