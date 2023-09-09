@@ -27,7 +27,7 @@ impl Color {
             Self::Gray => "серый",
             Self::White => "белый",
             Self::Gold => "золотой",
-            Self::Silver => "серебристый",
+            Self::Silver => "серебряный",
         }
     }
 
