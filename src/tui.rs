@@ -168,9 +168,12 @@ pub fn main_window(scr: &mut Cursive) {
 				if (1000. ..1_000_000.).contains(&value) {
 					value /= 1000.;
 					suffix = "кОм";
-				} else if value >= 10_000. {
+				} else if (1_000_000. ..1_000_000_000.).contains(&value) {
 					value /= 1_000_000.;
 					suffix = "МОм";
+				} else if value >= 1_000_000_000. {
+					value /= 1_000_000_000.;
+					suffix = "ГОм";
 				}
 
 				s.call_on_name("result", |txt: &mut TextView| {
