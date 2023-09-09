@@ -1,0 +1,17 @@
+[package]
+name = "resistor"
+version = "0.1.0"
+edition = "2021"
+description = "Программа для вычисления сопротивления резисторов по цветам"
+authors = ["{Tsar} <michail383krasnov@mail.ru>"]
+license = "GPL-3.0-or-later"
+
+[profile.release]
+lto = true
+strip = true
+debug = false
+panic = 'abort'
+opt-level = 's'
+
+[dependencies]
+cursive = "0.20.0"
