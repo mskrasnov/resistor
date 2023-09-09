@@ -11,7 +11,6 @@ use cursive::event::Key;
 use cursive::menu;
 
 use crate::colors::Color;
-use crate::colors::Multiplier;
 
 fn about_window(scr: &mut Cursive) {
 	let layout = LinearLayout::vertical()
@@ -105,6 +104,7 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors2.button(Color::Purple, Color::Purple.to_str()))
 				.child(colors2.button(Color::Gray, Color::Gray.to_str()))
 				.child(colors2.button(Color::White, Color::White.to_str()))
+				// .child(colors2.button(Color::Gold, Color::Gold.to_str()))
 		).title("Полоса №2"))
 		.child(Panel::new(
 			LinearLayout::vertical()
@@ -118,18 +118,19 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors3.button(Color::Purple, Color::Purple.to_str()))
 				.child(colors3.button(Color::Gray, Color::Gray.to_str()))
 				.child(colors3.button(Color::White, Color::White.to_str()))
+				// .child(colors3.button(Color::Gold, Color::Gold.to_str()))
+				// .child(colors3.button(Color::Silver, Color::Silver.to_str()))
 		).title("Полоса №3"))
 		.child(Panel::new(
 			LinearLayout::vertical()
-				.child(colors4.button(Multiplier::Black, Multiplier::Black.to_str()))
-				.child(colors4.button(Multiplier::Brown, Multiplier::Brown.to_str()))
-				.child(colors4.button(Multiplier::Red, Multiplier::Red.to_str()))
-				.child(colors4.button(Multiplier::Orange, Multiplier::Orange.to_str()))
-				.child(colors4.button(Multiplier::Yellow, Multiplier::Yellow.to_str()))
-				.child(colors4.button(Multiplier::Green, Multiplier::Green.to_str()))
-				.child(colors4.button(Multiplier::Blue, Multiplier::Blue.to_str()))
-				.child(colors4.button(Multiplier::Gold, Multiplier::Gold.to_str()))
-				.child(colors4.button(Multiplier::Silver, Multiplier::Silver.to_str()))
+				.child(colors4.button(Color::Silver, Color::Silver.to_str()))
+				.child(colors4.button(Color::Gold, Color::Gold.to_str()))
+				.child(colors4.button(Color::Brown, Color::Brown.to_str()))
+				.child(colors4.button(Color::Red, Color::Red.to_str()))
+				.child(colors4.button(Color::Green, Color::Green.to_str()))
+				.child(colors4.button(Color::Blue, Color::Blue.to_str()))
+				.child(colors4.button(Color::Purple, Color::Purple.to_str()))
+				.child(colors4.button(Color::Gray, Color::Gray.to_str()))
 		).title("Полоса №4"));
 
 	let status_bar = LinearLayout::horizontal()
@@ -143,20 +144,25 @@ pub fn main_window(scr: &mut Cursive) {
 					.to_usize();
 				let color3 = colors3
 					.selection()
-					.to_usize();
+					.to_multiplier();
 				let color4 = colors4
 					.selection()
-					.to_multiplier();
-				let color: f32 = format!("{color1}{color2}{color3}")
+					.to_deviation();
+
+				let deviation = match color4 {
+					Some(d) => format!(" ±{d}%"),
+					None => String::new(),
+				};
+
+				let color: f32 = format!("{color1}{color2}")
 					.trim()
 					.parse()
 					.unwrap();
 
-				let value = color * color4;
+				let value = color * color3;
 				s.call_on_name("result", |txt: &mut TextView| {
 					txt.set_content(format!(
-						"Сопротивление: {} {}", value,
-						colors4.selection().to_label()
+						"Сопротивление: {} Ом{}", value, deviation,
 					));
 				});
 			}))

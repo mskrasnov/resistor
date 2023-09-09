@@ -32,9 +32,9 @@ cp ./target/release/resistor ~/.local/bin/resistor
 resistor
 ```
 
-## Донат
+<!-- ## Донат
 
-> Сбербанк: 2202206252335406
+> Сбербанк: 2202206252335406 -->
 
 ## TODO
 
