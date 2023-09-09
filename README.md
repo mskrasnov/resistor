@@ -44,3 +44,4 @@ resistor
   - [ ] ArchLinux
   - [ ] Debian GNU/Linux
   - [ ] Fedora
+- [ ] Нормальный логотип
