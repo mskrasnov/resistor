@@ -106,7 +106,7 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors2.button(Color::Purple, Color::Purple.to_str()))
 				.child(colors2.button(Color::Gray, Color::Gray.to_str()))
 				.child(colors2.button(Color::White, Color::White.to_str()))
-				// .child(colors2.button(Color::Gold, Color::Gold.to_str()))
+				.child(colors2.button(Color::Gold, Color::Gold.to_str()))
 		).title("Полоса №2").title_position(align::HAlign::Left))
 		.child(Panel::new(
 			LinearLayout::vertical()
@@ -120,8 +120,8 @@ pub fn main_window(scr: &mut Cursive) {
 				.child(colors3.button(Color::Purple, Color::Purple.to_str()))
 				.child(colors3.button(Color::Gray, Color::Gray.to_str()))
 				.child(colors3.button(Color::White, Color::White.to_str()))
-				// .child(colors3.button(Color::Gold, Color::Gold.to_str()))
-				// .child(colors3.button(Color::Silver, Color::Silver.to_str()))
+				.child(colors3.button(Color::Gold, Color::Gold.to_str()))
+				.child(colors3.button(Color::Silver, Color::Silver.to_str()))
 		).title("Полоса №3").title_position(align::HAlign::Left))
 		.child(Panel::new(
 			LinearLayout::vertical()
@@ -165,7 +165,7 @@ pub fn main_window(scr: &mut Cursive) {
 				let mut value = color * color3;
 				let mut suffix = "Ом";
 
-				if (1000. ..10_000.).contains(&value) {
+				if (1000. ..1_000_000.).contains(&value) {
 					value /= 1000.;
 					suffix = "кОм";
 				} else if value >= 10_000. {
