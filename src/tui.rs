@@ -12,6 +12,7 @@ use cursive::event::Key;
 use cursive::menu;
 use cursive::theme;
 use cursive::With;
+use cursive::utils::markup::StyledString;
 
 use crate::colors::Color;
 
@@ -25,10 +26,10 @@ fn about_window(scr: &mut Cursive) {
 		.child(Panel::new(
 			TextView::new(
 				"Copyright (C) 2023 {Tsar}\n<michail383krasnov@mail.ru>"
-			)
+			).align(align::Align::center())
 		))
 		.child(Panel::new(
-			TextView::new("Сбербанк: 2202 2062 5233 5406")
+			TextView::new("Сбербанк: 2202 2062 5233 5406").align(align::Align::center())
 			).title("Где мои деньги, Лебовски?"));
 
 	let win = Dialog::around(layout)
@@ -46,7 +47,7 @@ fn donut_window(scr: &mut Cursive) {
 			          и обязательно продолжит работу над Resistor :)"
 		))
 		.child(Panel::new(
-			TextView::new("2202 2062 5233 5406"))
+			TextView::new("2202 2062 5233 5406").align(align::Align::center()))
 		.title("Сбербанк"))
 		.child(TextView::new(
 			"Resistor — свободное ПО, за которое не платят его\n\
@@ -60,6 +61,38 @@ fn donut_window(scr: &mut Cursive) {
 	let win = Dialog::around(layout)
 		.title("ДОНАТ")
 		.button("ОК", |s| { s.pop_layer(); });
+	scr.add_layer(win);
+}
+
+fn units_window(scr: &mut Cursive) {
+	let layout = LinearLayout::vertical()
+		.child(TextView::new(format!("{} поддерживает следующие\nединицы измерения:", env!("CARGO_PKG_NAME"))))
+		.child(Panel::new(TextView::new(
+			"Ом (Ω) — единица измерения\n\
+	                  кОм (kΩ, килоом) — 10^3 Ом\n\
+	                  МОм (MΩ, мегаом) — 10^6 Ом\n\
+	                  ГОм (GΩ, гигаом) — 10^9 Ом\n\n\
+			          Приведение к указанным единицам\n\
+			          происходит автоматически.",
+		)));
+	let win = Dialog::around(layout)
+		.title("Поддерживаемые единицы")
+		.button("OK", |s| { s.pop_layer(); });
+	scr.add_layer(win);
+}
+
+fn feedback_window(scr: &mut Cursive) {
+	let layout = LinearLayout::vertical()
+		.child(TextView::new(
+			"Если вы увидели ошибку или хотите предложить новый\n\
+			          функционал для программы, посетите адрес ниже,\n\
+			          заполните все указанные данные и отправьте issue."
+		))
+		.child(Panel::new(TextView::new("https://github.com/aagrh111/resistor/issues/new")))
+		.child(TextView::new(StyledString::styled("Необходима регистрация на GitHub!", theme::Color::Dark(theme::BaseColor::Red))).align(align::Align::center()));
+	let win = Dialog::around(layout)
+		.title("Обратная связь")
+		.button("OK", |s| { s.pop_layer(); });
 	scr.add_layer(win);
 }
 
@@ -77,6 +110,8 @@ pub fn main_window(scr: &mut Cursive) {
 	scr.menubar()
 		.add_subtree("Справка", menu::Tree::new()
 			.leaf("ДОНАТ", donut_window)
+			.leaf("Поддерживаемые единицы", units_window)
+			.leaf("Обратная связь", feedback_window)
 			.leaf("О программе", about_window)
 		);
 	scr.add_global_callback(Key::F1, |s| s.select_menubar());

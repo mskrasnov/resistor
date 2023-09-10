@@ -21,4 +21,4 @@ name = "resistor_gui"
 
 [dependencies]
 cursive = { version = "0.20.0", features = ["toml"] }
-gtk = { version = "0.7.2", package = "gtk4", features = ["v4_8", "gnome_44"] }
+gtk = { version = "0.7.2", package = "gtk4", features = ["v4_8"] }
