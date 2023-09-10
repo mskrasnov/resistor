@@ -10,6 +10,8 @@ use cursive::traits::Nameable;
 use cursive::align;
 use cursive::event::Key;
 use cursive::menu;
+use cursive::theme;
+use cursive::With;
 
 use crate::colors::Color;
 
@@ -63,9 +65,16 @@ fn donut_window(scr: &mut Cursive) {
 
 pub fn main_window(scr: &mut Cursive) {
 	scr.pop_layer();
+	let theme = scr.current_theme().clone().with(|theme| {
+		theme.palette[theme::PaletteColor::Background] = theme::Color::Dark(theme::BaseColor::Black);
+		theme.palette[theme::PaletteColor::HighlightText] = theme::Color::Light(theme::BaseColor::White);
+		theme.palette[theme::PaletteColor::Highlight] = theme::Color::Dark(theme::BaseColor::Blue);
+		theme.palette[theme::PaletteColor::TitlePrimary] = theme::Color::Dark(theme::BaseColor::Blue);
+		theme.borders = theme::BorderStyle::Simple;
+	});
+	scr.set_theme(theme);
 
 	scr.menubar()
-		// .add_subtree("Маркировка", menu::Tree::new())
 		.add_subtree("Справка", menu::Tree::new()
 			.leaf("ДОНАТ", donut_window)
 			.leaf("О программе", about_window)
