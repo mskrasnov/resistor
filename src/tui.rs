@@ -1,4 +1,12 @@
 use cursive::Cursive;
+use cursive::align;
+use cursive::event::Key;
+use cursive::menu;
+use cursive::theme;
+
+use cursive::traits::Nameable;
+use cursive::utils::markup::StyledString;
+
 use cursive::views::Dialog;
 use cursive::views::DummyView;
 use cursive::views::TextView;
@@ -6,33 +14,21 @@ use cursive::views::Panel;
 use cursive::views::RadioGroup;
 use cursive::views::LinearLayout;
 use cursive::views::Button;
-use cursive::traits::Nameable;
-use cursive::align;
-use cursive::event::Key;
-use cursive::menu;
-use cursive::theme;
-use cursive::With;
-use cursive::utils::markup::StyledString;
+
+use libmsg::tui::about::AboutWindowBuilder;
+use libmsg::tui::about::Copyright;
+use libmsg::tui::about::Donation;
 
 use crate::colors::Color;
 
 fn about_window(scr: &mut Cursive) {
-	let layout = LinearLayout::vertical()
-		.child(Panel::new(TextView::new(format!(
-			"{} v{}. Программа для вычисления сопротивления\n\
-				      резисторов по их цветовой маркировке.",
-			env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"),
-		))))
-		.child(Panel::new(
-			TextView::new(
-				"Copyright (C) 2023 {Tsar}\n<michail383krasnov@mail.ru>"
-			).align(align::Align::center())
-		))
-		.child(Panel::new(
-			TextView::new("Сбербанк: 2202 2062 5233 5406").align(align::Align::center())
-			).title("Где мои деньги, Лебовски?"));
+	let about = AboutWindowBuilder::new(env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"))
+		.set_description("Программа для вычисления сопротивления резисторов по\nих цветовой маркировке")
+		.set_site("https://github.com/aagrh111/resistor")
+		.add_copyright(Copyright::new("2023", "{Tsar}", "michail383krasnov@mail.ru"))
+		.add_donation(Donation::new("{Tsar}", "Сбербанк", "2202 2062 5233 5406\nГде мои деньги, Лебовски?"));
 
-	let win = Dialog::around(layout)
+	let win = Dialog::around(about.build().window())
 		.title("О программе")
 		.button("ОК", |s| { s.pop_layer(); });
 	scr.add_layer(win);
@@ -88,37 +84,24 @@ fn feedback_window(scr: &mut Cursive) {
 			          функционал для программы, посетите адрес ниже,\n\
 			          заполните все указанные данные и отправьте issue."
 		))
-		.child(Panel::new(TextView::new("https://github.com/aagrh111/resistor/issues/new")))
-		.child(TextView::new(StyledString::styled("Необходима регистрация на GitHub!", theme::Color::Dark(theme::BaseColor::Red))).align(align::Align::center()));
+		.child(Panel::new(TextView::new(
+			"https://github.com/aagrh111/resistor/issues/new"
+		)))
+		.child(TextView::new(
+			StyledString::styled(
+				"Необходима регистрация на GitHub!",
+				theme::Style::from(
+					theme::Color::Dark(theme::BaseColor::Red)
+				).combine(theme::Effect::Blink).combine(theme::Effect::Bold)
+			)
+		).align(align::Align::center()));
 	let win = Dialog::around(layout)
 		.title("Обратная связь")
 		.button("OK", |s| { s.pop_layer(); });
 	scr.add_layer(win);
 }
 
-pub fn main_window(scr: &mut Cursive) {
-	scr.pop_layer();
-	let theme = scr.current_theme().clone().with(|theme| {
-		theme.palette[theme::PaletteColor::Background] = theme::Color::Dark(theme::BaseColor::Black);
-		theme.palette[theme::PaletteColor::HighlightText] = theme::Color::Light(theme::BaseColor::White);
-		theme.palette[theme::PaletteColor::Highlight] = theme::Color::Dark(theme::BaseColor::Blue);
-		theme.palette[theme::PaletteColor::TitlePrimary] = theme::Color::Dark(theme::BaseColor::Blue);
-		theme.borders = theme::BorderStyle::Simple;
-	});
-	scr.set_theme(theme);
-
-	scr.menubar()
-		.add_subtree("Справка", menu::Tree::new()
-			.leaf("ДОНАТ", donut_window)
-			.leaf("Поддерживаемые единицы", units_window)
-			.leaf("Обратная связь", feedback_window)
-			.leaf("О программе", about_window)
-		);
-	scr.add_global_callback(Key::F1, |s| s.select_menubar());
-	scr.add_global_callback(Key::F10, donut_window);
-	scr.add_global_callback(Key::Esc, |s| s.quit());
-	scr.set_autohide_menu(false);
-
+pub fn five_colors_resistor_window(scr: &mut Cursive) {
 	let mut colors1 = RadioGroup::new();
 	let mut colors2 = RadioGroup::new();
 	let mut colors3 = RadioGroup::new();
@@ -240,4 +223,24 @@ pub fn main_window(scr: &mut Cursive) {
 	).title(env!("CARGO_PKG_NAME"));
 
 	scr.add_layer(win);
+}
+
+pub fn main_window(scr: &mut Cursive) {
+	scr.menubar()
+		.add_subtree("Файл", menu::Tree::new()
+			.leaf("Выход", |s| s.quit())
+		)
+		.add_subtree("Справка", menu::Tree::new()
+			.leaf("ДОНАТ", donut_window)
+			.leaf("Поддерживаемые единицы", units_window)
+			.leaf("Обратная связь", feedback_window)
+			.leaf("О программе", about_window)
+		);
+
+	scr.add_global_callback(Key::F1, |s| s.select_menubar());
+	scr.add_global_callback(Key::F10, donut_window);
+	scr.add_global_callback(Key::Esc, |s| s.quit());
+	scr.set_autohide_menu(false);
+
+	five_colors_resistor_window(scr);
 }

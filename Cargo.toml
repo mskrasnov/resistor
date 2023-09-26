@@ -20,5 +20,6 @@ name = "resistor_cli"
 name = "resistor_gui"
 
 [dependencies]
-cursive = { version = "0.20.0", features = ["toml"] }
+cursive = "0.20.0"
+libmsg = { git = "https://gitlab.com/calmiralinux/libmsg" }
 gtk = { version = "0.7.2", package = "gtk4", features = ["v4_8"] }
