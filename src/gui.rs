@@ -1,7 +1,6 @@
 use iced::Length;
 use iced::Pixels;
 use sapphire_ui::accent::Accent;
-// use sapphire_ui::radio::*;
 use sapphire_ui::theme::*;
 
 use iced::widget::column;
@@ -12,7 +11,6 @@ use iced::widget::scrollable;
 use iced::widget::vertical_space;
 
 use iced::Element;
-use iced::Font;
 use iced::Sandbox;
 use iced::Settings;
 
@@ -22,13 +20,14 @@ pub fn ui() -> iced::Result {
     let settings = Settings {
         window: iced::window::Settings {
             size: iced::Size {
-                width: 530.,
-                height: 500.,
+                width: 535.,
+                height: 530.,
             },
+            resizable: false,
             ..Default::default()
         },
+        id: Some("resistor".to_string()),
         antialiasing: true,
-        default_font: Font::with_name("Cantarell"),
         default_text_size: Pixels(15.),
         ..Settings::default()
     };
@@ -390,10 +389,10 @@ impl Sandbox for App {
                 colors_table,
                 vertical_space(),
                 row![
-                    calculate_button,
-                    horizontal_space(),
                     donate_button,
-                    about_button
+                    about_button,
+                    horizontal_space(),
+                    calculate_button,
                 ]
                 .spacing(10),
             ], // .spacing(20),
