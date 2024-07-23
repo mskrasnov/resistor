@@ -3,7 +3,7 @@ name = "resistor"
 version = "0.1.0"
 edition = "2021"
 description = "Программа для вычисления сопротивления резисторов по цветам"
-authors = ["mskrasnov <t.me/svalka07>"]
+authors = ["mskrasnov <https://t.me/svalka07>"]
 license = "GPL-3.0-or-later"
 
 [profile.release]
@@ -22,5 +22,5 @@ name = "resistor_gui"
 [dependencies]
 cursive = "0.20.0"
 iced = { version = "0.12.1", features = ["multi-window"] }
-sapphire_ui = { path = "../sapphire_ui" }
+sapphire_ui = { git = "https://github.com/mskrasnov/sapphire_ui" }
 libmsg = { git = "https://gitlab.com/calmiralinux/libmsg" }
