@@ -37,10 +37,12 @@ resistor_[gui или tui]
 ## Донат
 
 > Сбербанк: 2202206252335406
+>
+> Boosty: [linux-for-arm](https://boosty.to/linux-for-arm/donate)
 
 ## TODO
 
-~- [ ] Добавление графического интерфейса GTK4 + `libadwaita`~
+- [-] ~Добавление графического интерфейса GTK4 + `libadwaita`~
 - [X] Добавление графического интерфейса Iced
 - [ ] Создание пакетов для дистрибутивов
   - [ ] ArchLinux
