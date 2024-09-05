@@ -1,10 +1,7 @@
 use iced::Length;
 use iced::Pixels;
-use sapphire_ui::accent::Accent;
-use sapphire_ui::theme::*;
 
 use iced::widget::column;
-use iced::widget::container;
 use iced::widget::horizontal_space;
 use iced::widget::row;
 use iced::widget::scrollable;
@@ -13,6 +10,16 @@ use iced::widget::vertical_space;
 use iced::Element;
 use iced::Sandbox;
 use iced::Settings;
+
+use sapphire_ui::widgets::button;
+use sapphire_ui::widgets::container;
+use sapphire_ui::widgets::radio;
+use sapphire_ui::widgets::small_text;
+use sapphire_ui::widgets::text;
+use sapphire_ui::widgets::widget_group;
+use sapphire_ui::widgets::title_text;
+
+use sapphire_ui::theme::text::*;
 
 use crate::colors::Color;
 
@@ -46,7 +53,6 @@ pub enum Message {
 }
 
 pub struct App {
-    theme: Theme,
     header: String,
     subheader: Option<String>,
     line1: Color,
@@ -58,9 +64,6 @@ pub struct App {
 impl Default for App {
     fn default() -> Self {
         Self {
-            theme: Theme {
-                accent_color: Accent::Magenta,
-            },
             header: "Укажите полосы и нажмите «Вычислить»".to_string(),
             subheader: Some("Значения вычислений появятся здесь".to_string()),
             line1: Color::Black,
@@ -87,68 +90,73 @@ impl Sandbox for App {
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
-        let header = self
-            .theme
-            .header_title(&self.header, self.subheader.clone());
+        let header = {
+            let mut data = column![title_text(&self.header),];
+            if let Some(subtext) = &self.subheader {
+                // data = data.push(small_text(subtext));
+                data = column![text(&self.header).size(16.), small_text(subtext)];
+            }
+            widget_group(data).width(Length::Fill)
+        };
 
         let line1_color_choice = Some(self.line1);
         let line1_colors = column![
-            self.theme.text("Полоса №1").variant(TextVariant::Dimmed),
-            self.theme.radio(
+            text("Полоса №1").variant(TextVariant::Dimmed),
+            radio(
                 Color::Black.to_str(),
                 Color::Black,
                 line1_color_choice,
                 Message::Line1Changed
             ),
-            self.theme.radio(
+            radio(
                 Color::Brown.to_str(),
                 Color::Brown,
                 line1_color_choice,
                 Message::Line1Changed
             ),
-            self.theme.radio(
+            radio(
                 Color::Red.to_str(),
                 Color::Red,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Orange.to_str(),
                 Color::Orange,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Yellow.to_str(),
                 Color::Yellow,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Green.to_str(),
                 Color::Green,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Blue.to_str(),
                 Color::Blue,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Purple.to_str(),
                 Color::Purple,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gray.to_str(),
                 Color::Gray,
                 line1_color_choice,
                 Message::Line1Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::White.to_str(),
                 Color::White,
                 line1_color_choice,
@@ -159,68 +167,68 @@ impl Sandbox for App {
 
         let line2_color_choice = Some(self.line2);
         let line2_colors = column![
-            self.theme.text("Полоса №2").variant(TextVariant::Dimmed),
-            self.theme.radio(
+            text("Полоса №2").variant(TextVariant::Dimmed),
+            radio(
                 Color::Black.to_str(),
                 Color::Black,
                 line2_color_choice,
                 Message::Line2Changed
             ),
-            self.theme.radio(
+            radio(
                 Color::Brown.to_str(),
                 Color::Brown,
                 line2_color_choice,
                 Message::Line2Changed
             ),
-            self.theme.radio(
+            radio(
                 Color::Red.to_str(),
                 Color::Red,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Orange.to_str(),
                 Color::Orange,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Yellow.to_str(),
                 Color::Yellow,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Green.to_str(),
                 Color::Green,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Blue.to_str(),
                 Color::Blue,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Purple.to_str(),
                 Color::Purple,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gray.to_str(),
                 Color::Gray,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::White.to_str(),
                 Color::White,
                 line2_color_choice,
                 Message::Line2Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gold.to_str(),
                 Color::Gold,
                 line2_color_choice,
@@ -231,74 +239,74 @@ impl Sandbox for App {
 
         let line3_color_choice = Some(self.line3);
         let line3_colors = column![
-            self.theme.text("Полоса №3").variant(TextVariant::Dimmed),
-            self.theme.radio(
+            text("Полоса №3").variant(TextVariant::Dimmed),
+            radio(
                 Color::Black.to_str(),
                 Color::Black,
                 line3_color_choice,
                 Message::Line3Changed
             ),
-            self.theme.radio(
+            radio(
                 Color::Brown.to_str(),
                 Color::Brown,
                 line3_color_choice,
                 Message::Line3Changed
             ),
-            self.theme.radio(
+            radio(
                 Color::Red.to_str(),
                 Color::Red,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Orange.to_str(),
                 Color::Orange,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Yellow.to_str(),
                 Color::Yellow,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Green.to_str(),
                 Color::Green,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Blue.to_str(),
                 Color::Blue,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Purple.to_str(),
                 Color::Purple,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gray.to_str(),
                 Color::Gray,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::White.to_str(),
                 Color::White,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gold.to_str(),
                 Color::Gold,
                 line3_color_choice,
                 Message::Line3Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Silver.to_str(),
                 Color::Silver,
                 line3_color_choice,
@@ -309,56 +317,56 @@ impl Sandbox for App {
 
         let line4_colors_choice = Some(self.line4);
         let line4_colors = column![
-            self.theme.text("Полоса №4").variant(TextVariant::Dimmed),
-            self.theme.radio(
+            text("Полоса №4").variant(TextVariant::Dimmed),
+            radio(
                 Color::Silver.to_str(),
                 Color::Silver,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gold.to_str(),
                 Color::Gold,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Brown.to_str(),
                 Color::Brown,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Red.to_str(),
                 Color::Red,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Green.to_str(),
                 Color::Green,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Blue.to_str(),
                 Color::Blue,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Purple.to_str(),
                 Color::Purple,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 Color::Gray.to_str(),
                 Color::Gray,
                 line4_colors_choice,
                 Message::Line4Changed,
             ),
-            self.theme.radio(
+            radio(
                 "другой",
                 Color::Black,
                 line4_colors_choice,
@@ -371,18 +379,9 @@ impl Sandbox for App {
             scrollable(row![line1_colors, line2_colors, line3_colors, line4_colors,].spacing(5))
                 .width(Length::Fill);
 
-        let calculate_button = self
-            .theme
-            .button_text("Вычислить")
-            .on_press(Message::CalculateButtonPressed);
-        let donate_button = self
-            .theme
-            .button_text("Донат")
-            .on_press(Message::DonateButtonPressed);
-        let about_button = self
-            .theme
-            .button_text("О программе")
-            .on_press(Message::AboutButtonPressed);
+        let calculate_button = button("Вычислить").on_press(Message::CalculateButtonPressed);
+        let donate_button = button("Донат").on_press(Message::DonateButtonPressed);
+        let about_button = button("О программе").on_press(Message::AboutButtonPressed);
 
         let body = container(
             column![
@@ -401,7 +400,7 @@ impl Sandbox for App {
 
         let contents = column![header, body].spacing(5);
 
-        self.theme.primary_container(contents).into()
+        container(contents).into()
     }
 
     fn update(&mut self, message: Self::Message) {
