@@ -27,8 +27,8 @@ pub fn ui() -> iced::Result {
     let settings = Settings {
         window: iced::window::Settings {
             size: iced::Size {
-                width: 535.,
-                height: 530.,
+                width: 525.,
+                height: 510.,
             },
             resizable: false,
             ..Default::default()
