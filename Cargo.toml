@@ -1,10 +1,12 @@
 [package]
 name = "resistor"
-version = "0.1.0"
-edition = "2021"
-description = "Программа для вычисления сопротивления резисторов по цветам"
-authors = ["mskrasnov <https://t.me/svalka07>"]
+version = "1.0.0"
+edition = "2024"
+description = "Program to calculate resistors"
+authors = ["Michail Krasnov <mskrasnov07@ya.ru>"]
 license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/mskrasnov/resistor"
 
 [profile.release]
 lto = true
@@ -13,14 +15,5 @@ debug = false
 panic = 'abort'
 opt-level = 's'
 
-[[bin]]
-name = "resistor_cli"
-
-[[bin]]
-name = "resistor_gui"
-
 [dependencies]
 cursive = "0.20.0"
-iced = { version = "0.12.1", features = ["multi-window"] }
-sapphire_ui = { git = "https://github.com/mskrasnov/sapphire_ui" }
-libmsg = { git = "https://gitlab.com/calmiralinux/libmsg" }

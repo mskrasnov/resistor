@@ -17,18 +17,18 @@ pub enum Color {
 impl Color {
     pub fn to_str(&self) -> &str {
         match self {
-            Self::Black => "чёрный",
-            Self::Brown => "коричневый",
-            Self::Red => "красный",
-            Self::Orange => "оранжевый",
-            Self::Yellow => "жёлтый",
-            Self::Green => "зелёный",
-            Self::Blue => "синий",
-            Self::Purple => "фиолетовый",
-            Self::Gray => "серый",
-            Self::White => "белый",
-            Self::Gold => "золотой",
-            Self::Silver => "серебряный",
+            Self::Black => "black",
+            Self::Brown => "brown",
+            Self::Red => "red",
+            Self::Orange => "orange",
+            Self::Yellow => "yellow",
+            Self::Green => "green",
+            Self::Blue => "blue",
+            Self::Purple => "purple",
+            Self::Gray => "gray",
+            Self::White => "white",
+            Self::Gold => "gold",
+            Self::Silver => "silver",
         }
     }
 
