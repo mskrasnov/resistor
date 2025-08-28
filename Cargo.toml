@@ -15,5 +15,8 @@ debug = false
 panic = 'abort'
 opt-level = 's'
 
-[dependencies]
+[target.'cfg(unix)'.dependencies]
 cursive = "0.20.0"
+
+[target.'cfg(windows)'.dependencies]
+cursive = { version = "0.20.0", features = ["crossterm-backend"], default-features = false }
