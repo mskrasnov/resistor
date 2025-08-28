@@ -7,6 +7,8 @@ authors = ["Michail Krasnov <mskrasnov07@ya.ru>"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
 repository = "https://github.com/mskrasnov/resistor"
+keywords = ["resistor", "calculator"]
+categories = ["command-line-utilities", "mathematics"]
 
 [profile.release]
 lto = true
