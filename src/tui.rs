@@ -231,7 +231,7 @@ pub fn five_colors_resistor_window(scr: &mut Cursive) {
                 .child(Button::new("Quit", |s| s.quit())),
         ))
         .child(Panel::new(
-            TextView::new("the calculation results will appear here").with_name("result"),
+            TextView::new("results will appear here").with_name("result"),
         ));
 
     let win = Dialog::around(
