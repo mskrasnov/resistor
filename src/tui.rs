@@ -19,8 +19,13 @@ use cursive::views::TextView;
 use crate::colors::Color;
 
 fn about_window(scr: &mut Cursive) {
+    let prog_name = StyledString::styled(
+        format!("{}-v{}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION")),
+        theme::Style::from(theme::Color::Dark(theme::BaseColor::Blue)),
+    );
+
     let summary = Panel::new(LinearLayout::vertical()
-        .child(TextView::new(format!("{}-v{}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"))))
+        .child(TextView::new(prog_name))
         .child(ListView::new().child("Description", TextView::new("A program for calculating the resistance of resistors based on their color marking")).child("Program perository:", TextView::new("https://github.com/mskrasnov/resistor")))
     ).title("Summary");
     let copyright = Panel::new(TextView::new(format!(
@@ -28,10 +33,11 @@ fn about_window(scr: &mut Cursive) {
     )))
     .title("Copyright");
 
-    let donation = Panel::new(TextView::new(
+    let donation = Panel::new(TextView::new(StyledString::styled(
         "If you are from Russia, you can send me a donation:\n\
         2202 2062 5233 5406 (Сбербанк)",
-    ))
+        theme::Style::from(theme::Color::Dark(theme::BaseColor::Red)).combine(theme::Effect::Bold),
+    )))
     .title("Support me!");
 
     let about = LinearLayout::vertical()
@@ -203,10 +209,7 @@ pub fn five_colors_resistor_window(scr: &mut Cursive) {
                     }
 
                     s.call_on_name("result", |txt: &mut TextView| {
-                        txt.set_content(format!(
-                            "Resistance: {} {}{}",
-                            value, suffix, deviation,
-                        ));
+                        txt.set_content(format!("Resistance: {} {}{}", value, suffix, deviation,));
                     });
                 }))
                 .child(DummyView)
