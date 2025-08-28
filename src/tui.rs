@@ -29,7 +29,7 @@ fn about_window(scr: &mut Cursive) {
         .child(ListView::new().child("Description", TextView::new("A program for calculating the resistance of resistors based on their color marking")).child("Program perository:", TextView::new("https://github.com/mskrasnov/resistor")))
     ).title("Summary");
     let copyright = Panel::new(TextView::new(format!(
-        "Copyright (C) 2024, 2025 Michail Krasnov <mskrasnov07@ya.ru>"
+        "Copyright (C) 2023-2025 Michail Krasnov <mskrasnov07@ya.ru>"
     )))
     .title("Copyright");
 
