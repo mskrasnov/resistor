@@ -1,5 +1,5 @@
 [package]
-name = "resistor"
+name = "resistor-tui"
 version = "1.0.0"
 edition = "2024"
 description = "Program to calculate resistors"
