@@ -39,7 +39,7 @@ fn about_window(scr: &mut Cursive) {
         .child(copyright)
         .child(donation);
 
-    let win = Dialog::around(about.build().window())
+    let win = Dialog::around(about)
         .title("About program")
         .button("OK", |s| {
             s.pop_layer();
