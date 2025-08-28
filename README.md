@@ -19,3 +19,7 @@ cargo build --release
 ```bash
 ./target/release/resistor
 ```
+
+## License
+
+`resistor` is distributed under the [GNU GPL-3.0 license](LICENSE).
